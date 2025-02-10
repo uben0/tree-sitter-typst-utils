@@ -1,0 +1,10 @@
+[package]
+name = "test-gen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.28", features = ["derive"] }
+convert_case = "0.7.1"
+regex = "1.11.1"
+typst = "0.12.0"
