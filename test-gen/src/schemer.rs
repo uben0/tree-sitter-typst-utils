@@ -16,6 +16,9 @@ impl<W: Write> Writter<W> {
             color,
         });
     }
+    pub fn colored(&self) -> bool {
+        self.color
+    }
     pub fn param(mut self, param: impl Writtable) -> Self {
         write!(self.writter, " ").unwrap();
         param.write(self)
@@ -88,7 +91,7 @@ impl Writtable for f32 {
 }
 impl Writtable for &str {
     fn write<W: Write>(self, mut writter: Writter<W>) -> Writter<W> {
-        write!(writter.writter, "{}", self).unwrap();
+        write!(writter.writter, "{:?}", self).unwrap();
         writter
     }
 }

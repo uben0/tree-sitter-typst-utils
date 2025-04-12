@@ -11,6 +11,7 @@ struct Token(&'static str);
 const RAW_DELIM: Token = Token("raw_delim");
 const RAW_BLOB: Token = Token("raw_blob");
 const RAW_LANG: Token = Token("raw_lang");
+const HEADING_END: Token = Token("heading_end");
 
 impl Writtable for Token {
     fn write<W: Write>(self, w: Writter<W>) -> Writter<W> {
@@ -36,8 +37,17 @@ impl Writtable for &SyntaxNode {
                     .line()
                     .param(RAW_DELIM)
             }),
-            kind => w.node(&format!("{:?}", kind).to_case(Case::Snake), |w| {
+            SyntaxKind::Heading => w.node("heading", |w| {
                 w.fold(self.children(), |w, child| w.line().param(child))
+                    .line()
+                    .param(HEADING_END)
+            }),
+            kind => w.node(&format!("{:?}", kind).to_case(Case::Snake), |w| {
+                let colored = w.colored();
+                w.fold(colored.then(|| self.text().to_string()), |w, s| {
+                    w.param(s.as_str())
+                })
+                .fold(self.children(), |w, child| w.line().param(child))
             }),
         }
     }
@@ -63,13 +73,17 @@ fn print_test(name: &str, string: &str, mut w: &mut impl Write, color: bool) {
 
 #[derive(Parser)]
 struct Args {
+    read_from: PathBuf,
     write_to: PathBuf,
 }
 
 fn main() {
-    let Args { write_to } = Args::parse();
+    let Args {
+        read_from,
+        write_to,
+    } = Args::parse();
     let sep = Regex::new("\n?(={20}|-{20})\n").unwrap();
-    let content = std::fs::read_to_string("tests.txt").unwrap();
+    let content = std::fs::read_to_string(&read_from).unwrap();
     let mut parts = sep.split(&content);
     let mut file = std::fs::File::create(&write_to).unwrap();
     let mut stdout = std::io::stdout();
