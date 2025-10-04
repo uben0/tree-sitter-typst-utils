@@ -1,0 +1,12 @@
+[package]
+name = "unicode-table"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.48", features = ["derive"] }
+pest = "2.8.2"
+pest_derive = "2.8.2"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+serde_yml = "0.0.12"

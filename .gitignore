@@ -1,1 +1,4 @@
 target
+Cargo.lock
+/unicode-table/unicode.h
+/test-gen/tests.scm

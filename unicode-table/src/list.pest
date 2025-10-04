@@ -1,0 +1,8 @@
+WHITESPACE = _{ " " | "\n"                   }
+COMMENT    = _{ "#" ~ (!"\n" ~ ANY)*         }
+code       = @{ ('0'..'9' | 'A'..'F'      )+ }
+ident      = @{ ('a'..'z' | 'A'..'Z' | "_")+ }
+select     = _{ code ~ (".." ~ code)?        }
+entry      =  { select ~ ";" ~ ident         }
+file       =  { SOI ~ entry* ~ EOI           }
+

@@ -1,0 +1,31 @@
+xid_start:
+  !charset
+    - props
+    - [XID_Start]
+
+xid_continue:
+  !charset
+    - props
+    - [XID_Continue]
+
+wordy:
+  !difference
+    - !union
+      - !charset
+        - props
+        - [Alphabetic]
+      - !charset
+        - categs
+        - [Nd, Nl, No]
+    - !charset
+      - scripts
+      - [Katakana, Hiragana, Han, Hangul]
+
+alphanumeric:
+  !union
+    - !charset
+      - props
+      - [Alphabetic]
+    - !charset
+      - categs
+      - [Nd, Nl, No]
