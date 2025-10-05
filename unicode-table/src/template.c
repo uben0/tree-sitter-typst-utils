@@ -1,3 +1,6 @@
+// GENERATED CODE
+// https://github.com/uben0/tree-sitter-typst-utils
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
